@@ -18,14 +18,14 @@ Anotações feitas durantes os cursos de TypeScript ministrados no Santander Boo
 
 1. Evita resultados inesperados: por ser uma linguagem de tipagem dinâmica, erros como o do exemplo abaixo podem ocorrer no JavaScript:
 
-```
-function sum(a, b) {
-    return a + b;
-}
+    ```
+    function sum(a, b) {
+        return a + b;
+    }
 
-sum(1, 2) // 3
-sum('1', '2') // 12?
-```
+    sum(1, 2) // 3
+    sum('1', '2') // 12?
+    ```
 
 - Por ter tipagem estática, o TypeScript não permitira que a segunda operação fosse realizada, e reportaria o erro.
 
@@ -33,18 +33,18 @@ sum('1', '2') // 12?
 
 3. Já funciona como uma espécie de primeira documentação:
 
-```
-type Platform = 'Windows' | 'Mac OS' | 'Linux'
-type Feature = 'Single Player' | 'Multiplayer' | 'Co-op'
+    ```
+    type Platform = 'Windows' | 'Mac OS' | 'Linux'
+    type Feature = 'Single Player' | 'Multiplayer' | 'Co-op'
 
-interface GameDetails {
-    id: number;
-    title: string;
-    description: string;
-    platforms: Platform[];
-    features: Feature[];
-}
-```
+    interface GameDetails {
+        id: number;
+        title: string;
+        description: string;
+        platforms: Platform[];
+        features: Feature[];
+    }
+    ```
 
 - Só de ler o código acima, você consegue entender como quais tipos e valores os atributos da interface trabalham.
 
@@ -94,19 +94,19 @@ interface GameDetails {
 - Para compilar um arquivo `tsc <nome-arquivo>.ts -- watch`.
     - O parâmetro `--watch` faz com que o compilador seja executado toda vez que houver uma alteração no script em questão.
 
-```
-const num1 = window.document.getElementById('num1') as HTMLInputElement;
-const num2 = window.document.getElementById('num2') as HTMLInputElement;
-const button = window.document.getElementsByTagName('button')[0];
+    ```
+    const num1 = window.document.getElementById('num1') as HTMLInputElement;
+    const num2 = window.document.getElementById('num2') as HTMLInputElement;
+    const button = window.document.getElementsByTagName('button')[0];
 
-function sum(a: number, b: number) {
-    return a + b;
-}
+    function sum(a: number, b: number) {
+        return a + b;
+    }
 
-button.addEventListener('click', () => {
-    console.log(sum(Number(num1.value), Number(num2.value)))
-});
-```
+    button.addEventListener('click', () => {
+        console.log(sum(Number(num1.value), Number(num2.value)))
+    });
+    ```
 
 - No código acima, podemos ver um caso da inferência realizada pelo TS: não foi necessário declararmos o tipo de retorno da função, pois o TS consegue determinar, por inferência, que o retorno da soma de dois números, sempre será um número.
 
@@ -147,16 +147,18 @@ button.addEventListener('click', () => {
 
 - No código abaixo vemos uma redundância. Se você, na declaração da variável, atribui uma string literal a ela, você não precisa declarar o seu tipo, pois o TS consegue determinar por inferência o seu tipo e também está claro para o programador.
 
-`let message: string = 'Hello world!';`
+    ```
+    let message: string = 'Hello world!';
+    ```
 
 - No código abaixo, não é necessário informar o tipo de `e`, pois o TS sabe o tipo de retorno que esperar de `addEventListener`.
     - Por saber o tipo de retorno desse método, ele até te da as opções de atributos e métodos que `e` possui.
 
-```
-button.addEventListener('click', (e) => {
-    console.log(e.target);
-});
-```
+    ```
+    button.addEventListener('click', (e) => {
+        console.log(e.target);
+    });
+    ```
 
 
 ## Type Aliases e Union
@@ -164,36 +166,36 @@ button.addEventListener('click', (e) => {
 - Imagine que você tenha uma função que recebe o id de um usuário, porém, esse id pode vir tanto como `number` quanto `string`. Na hora de declarar o tipo do parâmetro, podemos utilizar um operador chamado `Union`, para determinar todas as possibilidades de tipo desse parâmetro.
     - O `Union` é representado por um Pipe.
 
-```
-function logInfo(uid: number | string, user: string) {
-    console.log(`An user with ${uid} has a name as ${user}.`);
-}
-```
+    ```
+    function logInfo(uid: number | string, user: string) {
+        console.log(`An user with ${uid} has a name as ${user}.`);
+    }
+    ```
 
 - Logo, `uid` será do tipo `number` **OU** `string`.
 
 - Podemos criar um apelido para `uid`, assim não precisamos ficar toda hora escrevendo `number | string`.
     - Chamamos isso de Type Aliases.
 
-```
-type Uid = number | string;
+    ```
+    type Uid = number | string;
 
-function logInfo(uid: Uid, user: string) {
-    console.log(`An user with ${uid} has a name as ${user}.`);
-}
-```
+    function logInfo(uid: Uid, user: string) {
+        console.log(`An user with ${uid} has a name as ${user}.`);
+    }
+    ```
 
 - Então podemos reaproveitar `Uid` em todo o código.
 
 - Podemos também usar o Type Aliases para delimitar os possíveis valores de um tipo.
 
-```
-type Platform = 'Windows' | 'Mac OS' | 'Linux';
+    ```
+    type Platform = 'Windows' | 'Mac OS' | 'Linux';
 
-function renderPlatform(platform: Platform) {
-    return platform;
-}
-```
+    function renderPlatform(platform: Platform) {
+        return platform;
+    }
+    ```
 
 - Quando chamar a função `renderPlatform`, só será possível passar no argumento um dos valores determinados na declaração de `Platform`. Qualquer coisa diferente dessas opções, o TS reportará um erro.
 
@@ -244,27 +246,27 @@ function renderPlatform(platform: Platform) {
 
 - No exemplo abaixo, o TS reporta um erro:
 
-```
-type JQuery = { a: string };
-type JQuery = { b: string };
-```
+    ```
+    type JQuery = { a: string };
+    type JQuery = { b: string };
+    ```
 
 - No exemplo abaixo, o TS faz um *merge* das interfaces:
 
-```
-interface JQuery {
-    a: string;
-}
+    ```
+    interface JQuery {
+        a: string;
+    }
 
-interface JQuery {
-    b: string;
-}
+    interface JQuery {
+        b: string;
+    }
 
-const $: JQuery = {
-    a: 'foo',
-    b: 'bar'
-}
-```
+    const $: JQuery = {
+        a: 'foo',
+        b: 'bar'
+    }
+    ```
 
 - O fato de permitir múltiplas declarações é uma vantagem de interfaces em casos onde estamos construindo libs extensíveis.
 
@@ -275,6 +277,47 @@ const $: JQuery = {
 
 ## Generics
 
+- Uma das coisas mais importantes no desenvolvimento é o reaproveitamento de código a partir de funções.
+    - Torna o código menor;
+    - Menor área de impacto em casos de tratativa de bug.
+
+- Logo, criar funções genéricas potencializam esse reaproveitamento.
+
+- *Generics* nos permitem criar funções sem fixarmos o tipo dos argumentos, suas propriedades internas ou seu retorno.
+
+- Funções *Generics* retornam, por padrão, o tipo `unknown`:
+    - `unknown`, assim como `any`, não possui um tipo definido, como `string`, `number`, `boolean` etc., podendo ser qualquer coisa;
+    - A diferença é que o tipo `any` permite a alteração do tipo da variável ao longo da execução, enquanto `unknown`, a partir do momento em que houve a primeira atribuição de valor, seu tipo não é possível de alterar.
+
+- Podemos declarar tipos genéricos na assinatura da função, utilizando `<>` logo após o seu nome.
+
+- Os nomes desses tipos genéricos podem ser qualquer um a sua escolha, porém, costuma-se utilizar um padrão:
+
+    Símbolo|Significado
+    :---:|:---:
+    S|State
+    T|Type
+    K|Key
+    V|Value
+    E|Element
+
+- Podemos limitar os possíveis tipos desse tipo genérico, utilizando a palavra reservada `extends`.
+
+- Podemos definir um tipo padrão para esse genérico.
+
+    ```
+    function useState<S extends number | string = string>() {
+        ...
+    }
+    ```
+
+- Na chamada da função, podemos informar o tipo genérico (senão será adotado o padrão ou feita a inferência).
+
+    ```
+    useState(); // S = string (padrão)
+    useState<number>(); // S = number
+    ```
+
 ## Type Utilities
 
 - Esses utilitários permitem fazer operações em cima dos tipos. Veremos os mais comuns.
@@ -283,19 +326,19 @@ const $: JQuery = {
 
 - Permite tornar todos os atributos do objeto para o modo de apenas leitura.
 
-```
-type Todo = {
-    title: string;
-    description: string;
-    completed: boolean;
-}
+    ```
+    type Todo = {
+        title: string;
+        description: string;
+        completed: boolean;
+    }
 
-const todo = Readonly<Todo> = {
-    title: 'Fazer curso de TS',
-    description: 'Aprender sobre Type Utilities',
-    completed: false
-}
-```
+    const todo = Readonly<Todo> = {
+        title: 'Fazer curso de TS',
+        description: 'Aprender sobre Type Utilities',
+        completed: false
+    }
+    ```
 
 - O `Readonly` (e outros utilitários) não mexe na estrutura do tipo `Todo`. Essa operação retorna um outro tipo, semelhante a `Todo`, mas com uma diferença: todos os seus atributos são apenas de leitura.
     - Ou seja, caso criemos outro objeto, logo em seguida, do tipo `Todo`, mas sem utilizar o utilitário `Readonly`, todas as propriedades desse objeto são mutáveis.
@@ -304,13 +347,13 @@ const todo = Readonly<Todo> = {
 
 - Torna todas as propriedades do tipo opcionais.
 
-```
-function updateTodo(todo: Todo, fieldsToUpdate: Partial<Todo>) {
-    return { ...todo, ...fieldsToUpdate };
-}
+    ```
+    function updateTodo(todo: Todo, fieldsToUpdate: Partial<Todo>) {
+        return { ...todo, ...fieldsToUpdate };
+    }
 
-const todo2: Todo = updateTodo(todo, { completed: true });
-```
+    const todo2: Todo = updateTodo(todo, { completed: true });
+    ```
 
 - Como o `todo` é imutável, precisamos replicar o objeto e alterar o que queremos, que é exatamente o que `updateTodo` faz.
     - No parâmetro `fieldsToUpdate`, passamos um objeto apenas com as propriedades que desejamos alterar e seus novos valores;
@@ -321,14 +364,14 @@ const todo2: Todo = updateTodo(todo, { completed: true });
 
 - Retorna um tipo apenas com os atributos passados como parâmetro e descarta os demais.
 
-```
-type TodoPreview = Pick<Todo, 'title' | 'completed'>;
+    ```
+    type TodoPreview = Pick<Todo, 'title' | 'completed'>;
 
-const todo3: TodoPreview = {
-    title: 'Fechar ghost of Tsushima',
-    completed: false
-}
-```
+    const todo3: TodoPreview = {
+        title: 'Fechar ghost of Tsushima',
+        completed: false
+    }
+    ```
 
 - O tipo `TodoPreview` possui apenas as propriedades que foram passadas como parâmetro em `Pick`.
     - Logo, `TodoPreview` não possui a propriedade `description`.
@@ -339,24 +382,24 @@ const todo3: TodoPreview = {
 
 - Lógica inversa do `Pick`.
 
-```
-type TodoPreview2 = Omit<Todo, 'description'>;
+    ```
+    type TodoPreview2 = Omit<Todo, 'description'>;
 
-const todo4: TodoPreview2 = {
-    title: 'Fechar ghost of Tsushima',
-    completed: false
-}
-```
+    const todo4: TodoPreview2 = {
+        title: 'Fechar ghost of Tsushima',
+        completed: false
+    }
+    ```
 
 - Para decidir se você usa o `Pick` ou `Omit`, faça a seguinte pergunta: eu quero mais descartar ou coletar propriedades?
     - Coletar mais => Use `Omit`;
     - Descartar mais => Use `Pick`;
 
-- Voltando no assutno de `Generics`... Olha como a documentação do Type Utility `Omit` descreve a função:
+- Voltando no assunto sobre `Generics`... Olha como a documentação do Type Utility `Omit` descreve a função:
 
-```
-type Omit<T, K extends string | number | symbol> { ... }
-```
+    ```
+    type Omit<T, K extends string | number | symbol> { ... }
+    ```
 
 - Olha os símbolos utilizados na assinatura da Generic... Exatamente como o padrão já apresentado.
     - T = Type => Todo;
