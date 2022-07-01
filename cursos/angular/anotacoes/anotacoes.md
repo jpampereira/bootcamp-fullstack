@@ -46,7 +46,7 @@ Arquivo/Diretório|Descrição
 Arquivo/Diretório|Descrição
 :---:|:---
 `src/app/app.module.ts`|Módulo raiz da aplicação, que engloba todos os Componentes. No *Decorator* `@NgModule`, em `declarations` são declarados todos os Componentes pertencentes à aquele contexto, assim como importados outros Módulos utilizados, em `imports`. Em `boostrap` indicamos o componente pai, que engloba os demais Componentes da página. 
-`src/app/app.component.ts`|Componente pai da aplicação. No arquivo, há um *Decorator*, onde são armazenadas informações relacionadas ao componente, como indicar os seus templates de estilo internos (`styleUrls`), o HTML do Componente (`templateUrl`), além do `selector`, que serve, a grosso modo, para mapear uma tag HTML à esse Componente. Nesse arquivo também há uma classe, que deve ser declarada como `NomeDoComponente + 'Component'` em formato Camel Case, onde podemos exportar informações que podem ser utilizadas por outros Componentes e pelo seu próprio HTML.
+`src/app/app.component.ts`|Componente pai da aplicação. No arquivo, há um *Decorator*, onde são armazenadas informações relacionadas ao componente, como indicar os seus templates de estilo internos (`styleUrls`), o HTML do Componente (`templateUrl`), além do `selector`, que serve, a grosso modo, para mapear uma tag HTML à esse Componente. Nesse arquivo também há uma classe, que deve ser declarada como `NomeDoComponente + 'Component'` em formato Camel Case, onde declaramos as variáveis e métodos relacionadas àquele componente.
 `src/app/app.component.html`|Documento HTML do Componente Pai.
 `src/app/app.component.css`|Documento CSS do Componente Pai. Essas configurações surtirão efeito apenas dentro do Componente e seus Filhos.
 
@@ -93,7 +93,7 @@ Arquivo/Diretório|Descrição
 
   ![Forma de Data Binding](imagens/data-binding.jpg)
 
-1. Através da **Interpolação**, conseguimos inserir valores das variáveis dos Componentes dentro do HTML: 
+1. Através da **Interpolação** (notação *double moustache*), conseguimos inserir valores das variáveis dos Componentes dentro do HTML: 
 
     ```
     <tag>{{ <atributo> }}</tag>
@@ -114,31 +114,99 @@ Arquivo/Diretório|Descrição
 4. Com o conceito de **Two Way Data Binding** permite exibirmos e alterarmos, a partir de uma tag HTML, o valor de uma variável do do Componente. Exemplo: queremos exibir o valor de uma variável da Componente dentro de uma tag `<input>`, assim, o usuário poderia visualizá-la e caso altera-se o valor contido nesse campo, automaticamente o valor da variável era atualizado. 
 
     ```
-    <input [(NgModel)]="<variavel>">
+    <input [(ngModel)]="<variavel>">
     ```
 
 - Existe também o conceito de **One Way Data Binding**, semelhante ao apresentado anteriormente, com a diferença de que ele permite apenas exibirmos, a partir de uma tag HTML, o valor de uma variável do Componente. Ou seja, se utilizarmos essa técnica dentro de uma tag `<input>`, como no exemplo anterior, o valor da variável seria exibido dentro do campo, mas caso o usuário o altera-se, o valor da variável não era atualizado. 
 
     ```
-    <tag [NgModel]="<variavel>">
+    <tag [ngModel]="<variavel>">
     ```
 
-## ngFor e ngIf 
+- *Lembre-se: Quando utilizamos os **colchetes**, estamos fazendo uma comunicação no sentido `Lógica -> Template`. Quando utilizamos os **parênteses**, estamos fazendo uma comunicação no sentido `Template -> Lógica`.*
 
-- Imagine um caso hipotético onde desejamos inserir dinamicamente uma tabela em nosso site. Utilizando JavaScript, criariamos uma função que receberia a lista de todos os valores que devem ser incluídos na tabela e iterariamos sobre ela, utilizando uma estrutura de repetição, onde criariamos a estrutura da tabela e adicionaríamos no HTML da página utilizando funções de manipulação da DOM como `createElement` e `insertChild`. O Angular, pra evitar toda essa escrita de código, possui uma Diretiva chamada `*ngFor`, que você adiciona na tag que você deseja iterar, e essa e todo seu conteúdo interno serão duplicados.
+## Diretivas
 
-  ```
-      <tr *ngFor="let element of list">
-        <td>{{ element.attr1 }}</td>
-        <td>{{ element.attr2 }}</td>
-        <td>{{ element.attr3 }}</td>
-        <td>{{ element.attr4 }}</td>
-      </tr>
-  ```
+- As diretivas fornecem meios para que possamos manipular o DOM ou estender as funcionalidades do elemento, sem a necessidade de utilizar JavaScript ou TypeScript.
 
-- Serão geradas `list.length` linhas na tabela, cada uma delas correspondente a um elemento da lista.
+- **Diretivas de Atributos:** alteram a aparência ou o comportamento de um elemento, componente ou outra diretiva, como por exemplo, `ngClass` e `ngStyle`.
 
-- Podemos também exibir ou não uma tag e suas tags filhas dada uma condição, utilizando a Diretiva `*ngIf`.
+- **Diretivas Estruturais:** Modificam o layout adicionando ou removendo elementos do DOM, como por exemplo, `ngIf` e `ngFor`.
+
+- Podemos também ter diretivas personalizadas.
+
+1. `ngStyle`:
+
+     - Essa Diretiva permite alterar o estilo de tags.
+       - Exemplo:
+         ```
+         <div [ngStyle]="{ background: count < 5 ? 'red' : 'green' }">...</div>
+         ```
+       - No exemplo acima, caso `count` seja menor que 5, o `background` da `<div>` será vermelho, caso contrário, o valor aplicado será o verde.
+
+2. `ngClass`:
+   
+      - Essa Diretiva permite a inserção de classes nas tags, caso determinada condição seja verdadeira.
+        - Exemplo:
+          ```
+          /* No CSS */
+
+          .custom {
+            color: #fff;
+            font-weight: bold;
+            font-style: italic;
+          }
+          ```
+          ```
+          <!-- No HTML -->
+
+          <div [ngStyle]="{ custom: count > 5 }">...</div>
+          ```
+        - No exemplo acima, caso `count` seja maior que 5, a classe `custom` é adicionada em `<div>`. 
+
+3. `ngIf`:
+
+      - Essa Diretiva permite determinarmos uma condição dentro da tag para que ela e seu conteúdo interno sejam renderizados apenas em casos positivos.
+        - Exemplo:
+          ```
+          <div *ngIf="count >= 7">...</div>
+          ```
+        - No exemplo acima, a `<div>` e seu conteúdo interno serão renderizados apenas quando `count` for maior ou igual a 7.
+        - É possível inserir uma espécie de `else`:
+          ```
+          <div *ngIf="count >= 7; else menor">...</div>
+          <ng-template #menor>...<ng-template>
+          ```
+        - No exemplo acima, enquanto `count` for menor do que 7, o conteúdo interno da tag `ng-template` será exibído em `<div>`. Quando `count` atingir o valor de 7, o conteúdo interno de `ng-template` será ocultado e o conteúdo interno de `<div>` renderizado.
+
+4. `ngSwitch`:
+
+      - Essa Diretiva permite utilizarmos a lógica do `switch`, uma estrutura condicional já conhecida das linguagens de programação tradicionais, diretamente no template HTML.
+        - Exemplo:
+        ```
+        <ul [ngSwitch]="count">
+	        <li *ngSwitchCase="3">...</li>
+          <li *ngSwitchCase="6">...</li>
+          <li *ngSwitchCase="9">...</li>
+          <li *ngSwitchDefault>...</li>
+        </ul>
+        ```
+        - No exemplo acima, caso `count` possua o valor 3, o conteúdo do primeiro `<li>` será exibído. Quando `count` valer 6, o segundo será renderizado, e da mesma forma, assim que atingir valor de 9, o terceiro aparecerá. Caso nenhuma das opções possibilidades seja atendida, o `<li>` com a Diretiva `*ngSwitchDefault` será exibído.   
+
+5. `ngFor`:
+
+   - Imagine um caso hipotético onde desejamos inserir dinamicamente uma tabela em nosso site. Utilizando JavaScript, desenvolveríamos uma função que recebe a lista de todos os valores que devem ser incluídos na tabela e iterariamos sobre ela, utilizando uma estrutura de repetição, e criariamos a estrutura da tabela e adicionaríamos no HTML da página utilizando métodos de manipulação da DOM como `createElement` e `insertChild`. O Angular, pra evitar toda essa escrita de código, possui uma Diretiva chamada `*ngFor`, que você adiciona na tag que você deseja iterar, e essa e todo seu conteúdo interno serão duplicados.
+
+     ```
+         <tr *ngFor="let element of list">
+           <td>{{ element.attr1 }}</td>
+           <td>{{ element.attr2 }}</td>
+           <td>{{ element.attr3 }}</td>
+           <td>{{ element.attr4 }}</td>
+         </tr>
+     ```
+
+   - Serão geradas `list.length` linhas na tabela, cada uma delas correspondente a um elemento da lista.
 
 ## Event Emitter
 
@@ -329,8 +397,6 @@ Arquivo/Diretório|Descrição
 ## Formulários e variáveis de template
 
 - Podemos utilizar **variáveis de template** para armazenar valores de variáveis do componente ou diretivas do Angular, dentro de tags HTML. Exemplo: Queremos pegar a propriedade `ngForm` para manipular o formulário do nosso site (exemplo: verificar se todos os campos do formulário são válidos). Para isso podemos fazer: `<form #myForm="ngForm">...</form>`, sendo `#myForm` a variável de template.
-
-- A propriedade `[ngClass]` permite a manipulação do css de elementos.
 
 ## HTTP
 
