@@ -81,7 +81,8 @@ Arquivo/Diretório|Descrição
 
 - O `selector` do Componente deve levar o mesmo nome. Uma convenção é utilizar o prefixo `app-` para identificarmos aquele Componente como um personalizado, e não como um nativo da linguagem ou importado por alguma biblioteca. Exemplo pro caso do Componente de lista de cursos: `app-course`.
 
-- Você pode criar os componentes com um único comando: `ng g c <nome-componente>`. Com isso, um diretório será criado em `src/app` levando o nome do Componente e já contendo todos os arquivos apresentados anteriormente. 
+- Você pode criar os componentes com um único comando: `ng g c <nome-componente>`. Com isso, um diretório será criado em `src/app` levando o nome do Componente e já contendo todos os arquivos apresentados anteriormente.
+  - Esse comando não serve apenas para Componentes, podendo também criar Diretivas, Serviços, Pipes, Módulos etc.
 
 - Podemos importar componentes prontos através da biblioteca **Angular Material**, que pode ser instalada através do seguinte comando: `ng add @angular/material`.
 
@@ -310,17 +311,19 @@ Arquivo/Diretório|Descrição
 
 - `ngOnInit` vs `constructor`: devemos utilizar o `constructor` apenas para inicializar serviços via Injeção de Dependências, enquanto o `ngOnInit` utilizamos para determinar as lógicas que devem ser executadas após a criação do Componente.
 
-## Services e Injeção de Dependências
+## Serviços e Injeção de Dependências
 
 - Uma boa prática é que sempre que formos criar um arquivo, que seu nome expresse o que ele realmente faz. Ou seja, se ele for um componente, inserir `component` no nome, for um módulo, inserir `module`. Outro caso é quando queremos criar um script que vai prover um serviço (por exemplo, requisições HTTP à uma API), então adicionamos a palavra `service` no nome.
 
-- Logo, utilizando o exemplo de um componente que exibe uma lista de cursos, o nome do arquivo de serviços ficará como: `course.service.ts`. Esse arquivo também deve ficar dentro do diretório do seu componente correspondente, dentro de `src/app`.
-
-- A ideia é que criemos serviços que forneçam dados para diferentes Componentes, quando solicitados.
+- Um Serviço Angular reutilizável é projetado para encapsular a lógica de negócios e os dados com diferentes componentes do Angular. É basicamente uma classe que tem um propósito bem definido para fazer algo. Você pode criar uma classe de serviço para dados ou lógica que não está associada a nenhuma visualização específica para compartilhar entre os componentes.
 
   ![Services](./imagens/service.jpg)
 
-- Fazemos a injeção de dependências utilizando o *Decorator* `@Injectable` no arquivo do serviço, e inserimos a propriedade `providedIn: root` para que esse serviço seja carregado assim que o módulo raiz for inicializado (É possível determinar em qual módulo o serviço será carregado, mas esse é um assunto mais avançado). Assim, quando o módulo raiz for inicializado, uma única instância desse serviço será criada e ficará disponível para uso por parte dos componentes pertencentes a esse módulo.
+- Se você escrever toda a lógica de negócios em componentes, terá os seguintes problemas:
+  - Você não poderá reutilizar essa lógica em nenhum outro lugar e terá que recodificar toda a lógica no componente destino;
+  - A manutenção de seus componentes será difícil, pois você terá que manter duas cópias do mesmo código.
+ 
+- Fazemos a injeção de dependências utilizando o *Decorator* `@Injectable` no arquivo do serviço, e inserimos a propriedade `providedIn: root` para que esse Serviço seja carregado assim que o módulo raiz for inicializado (É possível determinar em qual módulo ele será carregado, mas esse é um assunto mais avançado). Assim, quando o Módulo Raiz for inicializado, uma única instância desse Serviço será criada e ficará disponível para uso por parte dos Componentes pertencentes a esse Módulo.
 
   ```
   @Injectable({
@@ -328,7 +331,9 @@ Arquivo/Diretório|Descrição
   })
   ```
 
-- Para ter acesso a todos os recursos de um serviço, o componente deve invocá-lo através do construtor de sua classe.
+- Para ter acesso a todos os recursos de um Serviço, o componente deve invocá-lo através do construtor de sua classe.
+
+  ![Injeção de Dependências](imagens/dependency-injection.jpg)
 
   ```
   constructor(private myService: MyService) { }
