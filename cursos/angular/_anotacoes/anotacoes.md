@@ -33,58 +33,44 @@ Arquivo/Diretório|Descrição
 `angular.json`|Arquivo `.json` que armazena configurações globais da aplicação. Em `main`, indicamos o arquivo responsável pela inicialização da aplicação. Em `assets`, inserimos a parte estática da aplicação, como por exemplo, imagens. Em `styles`, indicamos os arquivos responsáveis pelos estilos globais, que serão propagados em todos os componentes. Em `index`, informamos a página base da aplicação.
 `node-modules`|Contém os arquivos das dependências instaladas pelo Angular npm. Exemplo: Bootstrap.
 `src`|Contém os arquivos da aplicação.
-`src/main.ts`|Arquivo que, por padrão, realiza a inicialização da aplicação, carregando o módulo raiz (AppModule).
+`src/main.ts`|Arquivo que, por padrão, realiza a inicialização da aplicação, carregando o Módulo Raiz (AppModule).
 `src/index.html`|Arquivo que, por padrão, contém a página base da aplicação.
 `src/style.css`|Arquivo que, por padrão, contém os estilos globais da página.
 `src/assets`|Diretório que, por padrão, armazena os arquivos estáticos da aplicação, como imagens, áudios, vídeos, fontes etc.
 `src/app`|Diretório que armazena os Módulos, Componentes, Rotas, Serviços, Pipes e tudo o que fizer parte da aplicação.
+`src/app/app.module.ts`|Arquivo do Módulo Raiz da aplicação. 
+`src/app/app.component.ts`|Arquivo do Componente Raiz da aplicação.
+`src/app/app.component.html`|Documento HTML do Componente Raiz.
+`src/app/app.component.css`|Documento CSS do Componente Raiz. Essas configurações surtirão efeito apenas dentro do Componente e seus Filhos.
 
-## Trabalhando com Módulos e Componentes
+- Uma boa prática é que sempre que formos criar um arquivo, que seu nome expresse o que ele realmente faz.
 
-- O Angular trabalha de forma modular. Esses Módulos funcionam como limitadores de contexto e nele são armazenados os Componentes, que são a parte vísivel da aplicação e que trazem vida ao módulo.
+- Todos os arquivos no Angular devem seguir o seguinte formato: `<nome>.<tipo>.<extensão>`.
+  - `nome` se refere ao nome dado para o Componente, Módulo, Pipe, Serviço etc.;
+  - `tipo` se refere a finalidade do arquivo: component, module, pipe, service etc.;
+  - `extensão` pode ser `.html`, `.css` ou `.ts`.
 
-Arquivo/Diretório|Descrição
-:---:|:---
-`src/app/app.module.ts`|Módulo raiz da aplicação, que engloba todos os Componentes. No *Decorator* `@NgModule`, em `declarations` são declarados todos os Componentes pertencentes à aquele contexto, assim como importados outros Módulos utilizados, em `imports`. Em `boostrap` indicamos o componente pai, que engloba os demais Componentes da página. 
-`src/app/app.component.ts`|Componente pai da aplicação. No arquivo, há um *Decorator*, onde são armazenadas informações relacionadas ao componente, como indicar os seus templates de estilo internos (`styleUrls`), o HTML do Componente (`templateUrl`), além do `selector`, que serve, a grosso modo, para mapear uma tag HTML à esse Componente. Nesse arquivo também há uma classe, que deve ser declarada como `NomeDoComponente + 'Component'` em formato Camel Case, onde declaramos as variáveis e métodos relacionadas àquele componente.
-`src/app/app.component.html`|Documento HTML do Componente Pai.
-`src/app/app.component.css`|Documento CSS do Componente Pai. Essas configurações surtirão efeito apenas dentro do Componente e seus Filhos.
+## Componentes
 
-- *Decorator* dos Módulos:
+- O Angular trabalha de forma modular. Esses Módulos funcionam como limitadores de contexto e nele são armazenados os Componentes, que são a parte vísivel da aplicação e que trazem vida ao Módulo.
 
-  ```
-  @NgModule({
-    declarations: [...],
-    imports: [...]
-    boostrap: [...]
-  })
-  ```
+- Os Componentes são blocos que sozinhos tem um sentido, eles podem ser únicos, ou um conjunto de vários outros Componentes.
+  - Quando utilizamos da componentização, temos bastante ganhos, dois quais podemos citar: a reutilização de trechos de código, isolamento de contexto, legibilidade do código, redução de código e padronização do projeto.
 
-- *Decorator* dos Componentes:
+  ![Components Example](./imagens/components-example.jpg)
 
-  ```
-  @Component({
-    selector: '...',
-    templateurl: '...',
-    styleUrls: [...]
-  })
-  ```
+- No início do arquivo, são listadas as importações das dependências do Componente. Logo abaixo, há um *Decorator*, que indica aquele arquivo como um Componente e armazena seus metadados, como indicar os seus templates de estilo internos (`styleUrls`), seu HTML (`templateUrl`), além do `selector`, que serve, a grosso modo, para mapear uma tag HTML à esse Componente. Por fim, tmbém há uma classe, que deve ser declarada como `NomeDoComponente + 'Component'` em formato Camel Case, onde declaramos as variáveis e métodos relacionadas àquele Componente.
+  - O `selector` deve levar o mesmo nome do Componente. Uma convenção é utilizar o prefixo `app-` para identificarmos ele como personalizado, e não como nativo da linguagem ou importado por alguma biblioteca. 
 
-- Criamos em `src/app`, os diretórios que representam cada um dos Componentes da aplicação. A boa prática indica que o nome desse diretório deve deixar claro o que aquele Componente representa. Esse diretório irá conter os mesmos tipos de arquivos apresentados na seção anterior. 
+  ![Component Structure](./imagens/components-structure.jpg)
 
-- Exemplo: Componente que exibirá uma lista de cursos.
-    - Nome do diretório: `app/courses`;
-    - Arquivo de componente: `app/courses/courses.component.ts`;
-    - Nome da classe do componente: `CourseComponent`;
-    - Arquivo HTML do componente: `app/courses/courses.component.html`;
-    - Arquivo CSS do componente: `app/courses/courses.component.css`.
-
-- O `selector` do Componente deve levar o mesmo nome. Uma convenção é utilizar o prefixo `app-` para identificarmos aquele Componente como um personalizado, e não como um nativo da linguagem ou importado por alguma biblioteca. Exemplo pro caso do Componente de lista de cursos: `app-course`.
+- Cada Componente possui seu próprio diretório dentro de `src/app` e contém um arquivo de HTML, um de CSS e um de TypeScript.
 
 - Você pode criar os componentes com um único comando: `ng g c <nome-componente>`. Com isso, um diretório será criado em `src/app` levando o nome do Componente e já contendo todos os arquivos apresentados anteriormente.
   - Esse comando não serve apenas para Componentes, podendo também criar Diretivas, Serviços, Pipes, Módulos etc.
 
 - Podemos importar componentes prontos através da biblioteca **Angular Material**, que pode ser instalada através do seguinte comando: `ng add @angular/material`.
+  - O Material Design é o padrão de design utilizado pelas aplicações da Google. O Angular Material aplica esse design para Componentes Angular 
 
 ## Data Binding
 
@@ -209,97 +195,60 @@ Arquivo/Diretório|Descrição
 
    - Serão geradas `list.length` linhas na tabela, cada uma delas correspondente a um elemento da lista.
 
-## Event Emitter
+## Comunicação entre Componentes
 
 - Podemos passar passar valores de variáveis entre Componentes utilizando as diretivas `@Input()` e `@Output()`. Utilizamos o primeiro caso quando queremos passar o valor de um Componente pai para o filho e o segundo para o cenário inverso.
 
 - Exemplo: temos um `Componente A` pai com a variável `valorA = 10` e um `Componente B` filho com a variável `valorB = 20`.
 
-  ```
-  export class ComponenteA implements OnInit {
-    valorA: number;
+1. Para sobrescrevermos o valor de `B`, inserimos a diretiva `@Input()` no corpo da sua classe, o que permite que suas variáveis recebam valores de entrada de seu Componente Pai. Para passar o valor, utilizamos a ideia de *Data Binding* no `selector` do `Componente B`:
 
-    ngOnInit() {
-      this.valorA = 10;
+    ```
+    export class ComponenteA implements OnInit {
+      valorA: number;
+
+      ngOnInit() {
+        this.valorA = 10;
+      }
     }
-  }
-  ```
+    ```
 
-  ```
-  export class ComponenteB implements OnInit {
-    valorB: number;
-
-    ngOnInit() {
-      this.valorB = 20;
+    ```
+    export class ComponenteB implements OnInit {
+      @Input() valorB: number = 20;
     }
-  }
-  ```
+    ```
 
-  ```
-  <componente-a>
-    <componente-b></componente-b>
-  </componente-a>
-  ```
-
-- Para sobrescrevermos o valor de `B`, inserimos a diretiva `@Input()` no corpo da sua classe, o que permite que suas variáveis recebam valores de entrada de seu Componente Pai. Para passar o valor, utilizamos a ideia de *Data Binding* no `selector` do `Componente B`:
-
-  ```
-  export class ComponenteA implements OnInit {
-    valorA: number;
-
-    ngOnInit() {
-      this.valorA = 10;
-    }
-  }
-  ```
-
-  ```
-  export class ComponenteB implements OnInit {
-    @Input() valorB: number;
-
-    ngOnInit() {
-      this.valorB = 20;
-    }
-  }
-  ```
-
-  ```
-  <componente-a>
+    ```
     <componente-b [valorB]="valorA"></componente-b>
-  </componente-a>
-  ```
+    ```
 
-- Para sobrescrevermos o valor de `Componente A`, inserimos a diretiva `@Output()` no corpo do `Componente B` e atribuimos à variável de `B` que vai enviar os valores para `A`, um objeto do tipo `EventEmitter`, responsável por fazer o envio desses dados. Para emitir um valor de `B` para `A`, é necessário invocar o método `emit` de `EventEmitter`, passando como argumento o valor que deve ser repassado a variável de A. Para passar o valor, utilizamos a ideia de *Data Binding* no `selector` do `Componente A`, conforme imagens abaixo:
+2. Para sobrescrevermos o valor de `Componente A`, inserimos a diretiva `@Output()` no corpo do `Componente B` e atribuimos à sua variável que vai enviar os valores para `A`, um objeto do tipo `EventEmitter`, responsável por fazer o envio desses dados. Para emitir um valor de `B` para `A`, é necessário invocar o método `emit` de `EventEmitter`, passando como argumento o valor que deve ser repassado a variável de A. Para passar o valor, utilizamos a ideia de *Data Binding* no `selector` do `Componente B`, conforme imagens abaixo:
+   - Devemos chamar o método `enviaValorParaA` dentro do `Componente B` (através de um clique, por exemplo) para que o valor seja emitido para `A`. 
 
-  ```
-  export class ComponenteA implements OnInit {
-    valorA: number;
+    ```
+    export class ComponenteA implements OnInit {
+      valorA: number = 10;
 
-    ngOnInit() {
-      this.valorA = 10;
+      atualizaValorDeA(novoValor: number) {
+        this.valorA = novoValor;
+      }
     }
+    ```
 
-    atualizaValorDeA(novoValor: number) {
-      this.valorA = novoValor;
+    ```
+    export class ComponenteB implements OnInit {
+      @Output() valorB = new EventEmitter<number>();
+
+      enviaValorParaA(valor: number) {
+        this.valorB.emit(valor);
+      }
     }
-  }
-  ```
+    ```
 
-  ```
-  export class ComponenteB implements OnInit {
-    @Output() valorB = new EventEmitter<number>();
-
-    enviaValorParaA(valor: number) {
-      this.valorB.emit(valor);
-    }
-  }
-  ```
-
-  ```
-  <componente-a (valorB)="atualizaValorDeA($event)">
-    <componente-b (click)="enviaValorParaA(20)"></componente-b>
-  </componente-a>
-  ```
+    ```
+    <componente-b (valorB)="atualizaValorDeA($event)"></componente-b>
+    ```
 
 ## Lifecycle Hooks
 
@@ -312,8 +261,6 @@ Arquivo/Diretório|Descrição
 - `ngOnInit` vs `constructor`: devemos utilizar o `constructor` apenas para inicializar serviços via Injeção de Dependências, enquanto o `ngOnInit` utilizamos para determinar as lógicas que devem ser executadas após a criação do Componente.
 
 ## Serviços e Injeção de Dependências
-
-- Uma boa prática é que sempre que formos criar um arquivo, que seu nome expresse o que ele realmente faz. Ou seja, se ele for um componente, inserir `component` no nome, for um módulo, inserir `module`. Outro caso é quando queremos criar um script que vai prover um serviço (por exemplo, requisições HTTP à uma API), então adicionamos a palavra `service` no nome.
 
 - Um Serviço Angular reutilizável é projetado para encapsular a lógica de negócios e os dados com diferentes componentes do Angular. É basicamente uma classe que tem um propósito bem definido para fazer algo. Você pode criar uma classe de serviço para dados ou lógica que não está associada a nenhuma visualização específica para compartilhar entre os componentes.
 
@@ -407,7 +354,7 @@ Arquivo/Diretório|Descrição
 
 - O Angular já possui o módulo `HttpClientModule`, que permite realizar requisições HTTP sem a necessidade de instalar bibliotecas externas, como ocorre no JavaScript que necessita da importação de uma biblioteca, como por exemplo, o `axios`.
   - Permite fazer as principais operações HTTP: POST, GET, PUT, DELETE;
-  - É necessário realizar a injeção de independência desse módulo dentro do componente que você deseja utilizá-lo.
+  - É necessário realizar a injeção de dependência desse módulo dentro do componente que você deseja utilizá-lo.
 
 - Os métodos HTTP permitem três parâmetros na sua chamada: URL da API, o body da requisição e as opções (que inclui o header, com diferentes configurações que podem ser feitas).
 
@@ -435,6 +382,8 @@ Arquivo/Diretório|Descrição
       });
       ```
 
+- Uma boa prática é criar `models`, sejam eles Type Alias, Interfaces ou Classes para determinar o tipo de resposta da API que o seu programa está esperando.
+
 - O `sheet.best` é uma ferramenta que nos permite transformar planilhas online utilizando o Google SpreadSheet, por exemplo, em banco de dados, e manipular seus dados através de uma API.
 
 ## Módulos
@@ -443,9 +392,14 @@ Arquivo/Diretório|Descrição
 
 - Analogia: O Módulo Raiz é uma casa, e os Módulos Filhos funcionam como os cômodos da casa. Os objetos existentes em cada um desses cômodos são os Componentes, que fisica,emye fazem parte apenas daquela área (contexto).
 
-- Seguindo o exemplo de um componente que lista cursos de uma plataforma, o nome do arquivo de módulo deve ser: `src/app/courses/courses.module.ts`.
+- O arquivo do Módulo apresenta na parte mais acima todos os Componentes e Módulos que são importados para ele. Logo abaixo, há o *Decorator* `@NgModule` onde, devem ser declarados todos os Componentes utilizados internamente (`declarations`), assim como outros módulos (`imports`).
 
-- No *Decorator* desse módulo, devem ser declarados todos os Componentes utilizados internamente, assim como outros módulos.
+  ```
+  @NgModule({
+    declarations: [...],
+    imports: [...]
+  })
+  ```
 
 - Nesse momento, os componentes desse módulo podem ser removidos do módulo raiz e seu nome inserido na lista de módulos (vai dar erro se você manter os componentes declarados tanto no Módulo Raiz quanto no Filho).
 
