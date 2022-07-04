@@ -405,6 +405,38 @@ Arquivo/Diretório|Descrição
 
 ## HTTP
 
+- O Angular já possui o módulo `HttpClientModule`, que permite realizar requisições HTTP sem a necessidade de instalar bibliotecas externas, como ocorre no JavaScript que necessita da importação de uma biblioteca, como por exemplo, o `axios`.
+  - Permite fazer as principais operações HTTP: POST, GET, PUT, DELETE;
+  - É necessário realizar a injeção de independência desse módulo dentro do componente que você deseja utilizá-lo.
+
+- Os métodos HTTP permitem três parâmetros na sua chamada: URL da API, o body da requisição e as opções (que inclui o header, com diferentes configurações que podem ser feitas).
+
+- O retorno do método é um `Observable`. Ele possui uma estrutura semelhante as `Promises`, com a diferença que o `Observable` permite nos inscrevermos para receber dados de forma contínua, sem a necessidade de se conectar toda vez através do mesmo endereço para receber os dados.
+  - Esse `Observable` encapsula a resposta da requisição, logo, na chamada da função, é necessário especificar o retorno esperado.
+  - Exemplo:
+
+    ```
+    getUser(): Observable<User> {
+      return this.httpClient.get<User>(url, body, opts);
+    }
+    ```
+
+- Na chamada desse método que retorna um Observable, é necessário realizar uma inscrição para receber a resposta, através do método `subscribe`. Esse método possui um comportamento semelhante ao `then` das `Promises`.
+  - Esse método `subscribe` pode receber três parâmetros que são três funções callback: 
+    - `next`, que informa o que deve ser feito caso o método seja executado com sucesso;
+    - `error`, que informa o que deve ser feito caso o método falhe; e
+    - `complete`, que informa o que deve ser executado após `next`.
+
+      ```
+      getUser().subscribe({
+        next: response => ...,
+        error: err => ...,
+        complete: () => ...
+      });
+      ```
+
+- O `sheet.best` é uma ferramenta que nos permite transformar planilhas online utilizando o Google SpreadSheet, por exemplo, em banco de dados, e manipular seus dados através de uma API.
+
 ## Módulos
 
 - Como já explicado anteriormente, os módulos funcionam como limitadores de contexto. Logo, é uma boa prática segregar os componentes da sua aplicação em módulos para que esses consigam fazer comunicação apenas com aqueles que fazem parte de um mesmo contexto.

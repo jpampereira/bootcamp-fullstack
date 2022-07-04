@@ -8,15 +8,31 @@ import { CourseService } from "./course.service";
 })
 
 export class CourseInfoComponent implements OnInit {
-	course: Course = this.courseService.retrieveById(1);
+	course: Course = {
+		id: 0,
+		name: '',
+		price: 0,
+		imageUrl: '',
+		code: '',
+		duration: 0,
+		rating: 0,
+		releaseDate: '',
+		description: ''
+	};
 
 	constructor(private activatedRoute: ActivatedRoute, private courseService: CourseService) { }
 
 	ngOnInit(): void {
-		this.course = this.courseService.retrieveById(Number(this.activatedRoute.snapshot.paramMap.get('id')));
+		this.courseService.retrieveById(Number(this.activatedRoute.snapshot.paramMap.get('id'))).subscribe({
+			next: course => this.course = course,
+			error: err => console.log(`Error: ${err}`)
+		});
 	}
 
 	save(): void {
-		this.courseService.save(this.course);
+		this.courseService.save(this.course).subscribe({
+			next: res => console.log(res),
+			error: err => console.log(`Error: ${err}`)
+		});
 	}
 }

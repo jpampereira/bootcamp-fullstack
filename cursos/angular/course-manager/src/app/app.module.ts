@@ -17,7 +17,7 @@ import { AppComponent } from './app.component';
     CourseModule,
     CoreModule,
     RouterModule.forRoot([
-      { path: '', redirectTo: 'course', pathMatch: 'full' }
+      { path: '', redirectTo: '/course', pathMatch: 'full' }
     ])
   ],
   providers: [],
