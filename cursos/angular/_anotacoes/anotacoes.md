@@ -57,12 +57,12 @@ Arquivo/Diretório|Descrição
 - Os Componentes são blocos que sozinhos tem um sentido, eles podem ser únicos, ou um conjunto de vários outros Componentes.
   - Quando utilizamos da componentização, temos bastante ganhos, dois quais podemos citar: a reutilização de trechos de código, isolamento de contexto, legibilidade do código, redução de código e padronização do projeto.
 
-  ![Components Example](./imagens/components-example.jpg)
+  ![Components Example](./imagens/components-example.JPG)
 
 - No início do arquivo, são listadas as importações das dependências do Componente. Logo abaixo, há um *Decorator*, que indica aquele arquivo como um Componente e armazena seus metadados, como indicar os seus templates de estilo internos (`styleUrls`), seu HTML (`templateUrl`), além do `selector`, que serve, a grosso modo, para mapear uma tag HTML à esse Componente. Por fim, tmbém há uma classe, que deve ser declarada como `NomeDoComponente + 'Component'` em formato Camel Case, onde declaramos as variáveis e métodos relacionadas àquele Componente.
   - O `selector` deve levar o mesmo nome do Componente. Uma convenção é utilizar o prefixo `app-` para identificarmos ele como personalizado, e não como nativo da linguagem ou importado por alguma biblioteca. 
 
-  ![Component Structure](./imagens/components-structure.jpg)
+  ![Component Structure](./imagens/components-structure.JPG)
 
 - Cada Componente possui seu próprio diretório dentro de `src/app` e contém um arquivo de HTML, um de CSS e um de TypeScript.
 
