@@ -80,25 +80,25 @@ Arquivo/Diretório|Descrição
 
   ![Forma de Data Binding](imagens/data-binding.jpg)
 
-1. Através da **Interpolação** (notação *double moustache*), conseguimos inserir valores das variáveis dos Componentes dentro do HTML: 
+1. **Interpolação:** ou notação *double moustache*, nos permite inserir valores das variáveis dos Componentes dentro do HTML: 
 
     ```
     <tag>{{ <atributo> }}</tag>
     ```
 
-2. Quando queremos passar o valor da variável de um Componente para dentro do atributo de uma tag HTML, devemos colocar essa tag entre colchetes, para que o HTML entenda isso. Exemplo: a classe do nosso Componente possui um atributo `imageuRL` que armazena o URL de uma imagem que deve ser exibída no site. Para que o caminho da imagem seja inserido dentro de `<img>`, devemos colocar a propriedade `src` entre colchetes.
+2. **Property Binding:** Quando queremos passar o valor da variável de um Componente para dentro do atributo de uma tag HTML, devemos colocar essa tag entre colchetes, para que o HTML entenda isso. Exemplo: a classe do nosso Componente possui um atributo `imageuRL` que armazena o URL de uma imagem que deve ser exibída no site. Para que o caminho da imagem seja inserido dentro de `<img>`, devemos colocar a propriedade `src` entre colchetes.
 
     ```
     <img [src]="imageUrl">
     ```
 
-3. Podemos mapear uma função do nosso componente para ser executada quando uma tag atinge determinada condição/estado. Exemplo: nosso Componente possui uma função chamada `save` que salva as alterações do formulário quando o mesmo é submetido. Para isso podemos fazer: 
+3. **Event Binding:** Podemos mapear uma função do nosso componente para ser executada quando uma tag atinge determinada condição/estado. Exemplo: nosso Componente possui uma função chamada `save` que salva as alterações do formulário quando o mesmo é submetido. Para isso podemos fazer: 
 
     ```
     <button (click)="save">Save</button>
     ```
 
-4. Com o conceito de **Two Way Data Binding** permite exibirmos e alterarmos, a partir de uma tag HTML, o valor de uma variável do do Componente. Exemplo: queremos exibir o valor de uma variável da Componente dentro de uma tag `<input>`, assim, o usuário poderia visualizá-la e caso altera-se o valor contido nesse campo, automaticamente o valor da variável era atualizado. 
+4. **Two Way Data Binding:** permite exibirmos e alterarmos, a partir de uma tag HTML, o valor de uma variável do do Componente. Exemplo: queremos exibir o valor de uma variável da Componente dentro de uma tag `<input>`, assim, o usuário poderia visualizá-la e caso altera-se o valor contido nesse campo, automaticamente o valor da variável era atualizado. 
 
     ```
     <input [(ngModel)]="<variavel>">
@@ -201,7 +201,7 @@ Arquivo/Diretório|Descrição
 
 - Exemplo: temos um `Componente A` pai com a variável `valorA = 10` e um `Componente B` filho com a variável `valorB = 20`.
 
-1. Para sobrescrevermos o valor de `B`, inserimos a diretiva `@Input()` no corpo da sua classe, o que permite que suas variáveis recebam valores de entrada de seu Componente Pai. Para passar o valor, utilizamos a ideia de *Data Binding* no `selector` do `Componente B`:
+1. Para sobrescrevermos o valor de `B`, inserimos a diretiva `@Input()` antes de `valorB`, o que permite que ela receba valores de entrada de seu Componente Pai. Para passar o valor, utilizamos a ideia de *Data Binding* no `selector` do `Componente B`:
 
     ```
     export class ComponenteA implements OnInit {
@@ -254,7 +254,9 @@ Arquivo/Diretório|Descrição
 
 - Todo componente no angular tem um conjunto de eventos de ciclo de vida (Lifecycle Hooks) que ocorrem quando um componente é criado, renderizado, tem o valor de suas propriedades alteradas ou é destruído. o Angular invoca uma séries de métodos (Hooks), que são executados no momento em que esses eventos são acionados.
 
-- Exemplos são o `OnInit` e o `OnChanges`, que quando implementados nas classes de Componentes, permitem definirmos seus comportamento quando o Componente e inicializado e quando há uma mudança de estado, respectivamente.
+  ![Lifecycle Hooks](./imagens/life-cycle.jpg)
+
+- Exemplos são o `OnInit`, `OnChanges` e `OnDestroy`, que quando implementados nas classes dos Componentes, permitem definirmos seus comportamento quando o Componente e inicializado, quando há uma mudança de estado e antes dele ser destruído, respectivamente.
 
 - Use com sabedoria para não comprometer a performance da sua aplicação.
 

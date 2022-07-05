@@ -1,0 +1,22 @@
+<!-- Interpolação -->
+<h1>O nome é {{ text }}</h1>
+
+<!-- Property Binding-->
+<img [src]="imageUrl" [alt]="imageDesc">
+
+<!-- Event Binding -->
+<input #input (keyup)="clicou(input.value)">
+{{ input.value }}
+
+<!-- Two Way Binding -->
+<input [(ngModel)]="textInput" type="text">
+{{ textInput }}
+
+<app-button btnText="Cancelar" [btnType]="'btn-danger'" (childClick)="clicouNoFilho($event)"></app-button>
+<app-button btnText="Salvar" [btnType]="'btn-success'" (click)="incrementa()"></app-button>
+<app-button btnText="Clique Aqui" [btnType]="'btn-primary'"></app-button>
+<app-button btnText="Enviar" [btnType]="'btn-outline-success'"></app-button>
+
+{{ childText }}
+
+<app-life-cycle [number]="number"></app-life-cycle>
