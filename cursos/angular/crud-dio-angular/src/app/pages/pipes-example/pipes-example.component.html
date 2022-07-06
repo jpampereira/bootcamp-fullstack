@@ -1,0 +1,64 @@
+<div class="form-group my-5" >
+	<label for="number">Number:</label>
+	<input type="text" [(ngModel)]="number" class="form-control" id="number">
+	<p>{{ number }}</p>
+	<button class="btn btn-success" (click)="mudaValor()">Click</button>
+</div>
+
+<div class="">
+	<p>Sem formatação:</p>
+	<p>{{ number | number }}</p>
+	
+	<p>Com formatação:</p>
+	<p>{{ number | number: '2.0-1' }}</p>
+
+	<p>Resultado em moeda:</p>
+	<p>{{ number | currency: 'BRL' }}</p>
+
+	<p>Resultado em porcentagem:</p>
+	<p>{{ number | percent }}</p>
+
+	<p>Texto em caixa alta:</p>
+	<p>{{ text }}</p> <!-- Forma tradicional: <p>{{ text | uppercase }}</p>-->
+
+	<p>Texto em caixa baixa:</p>
+	<p>{{ text | lowercase }}</p>
+
+	<p>Texto com a primeira letra de todas as palavras em maiúsculo:</p>
+	<p>{{ text | titlecase }}</p>
+
+	<p>Pegar parte da string (slice):</p>
+	<p>{{ text | slice:1:4}}</p>
+
+	<p>Data de hoje sem formatação:</p>
+	<p>{{ date }}</p>
+
+	<p>Data de hoje com formatação:</p>
+	<p>{{ date | date: 'dd/MM/yyyy hh:mm' }}</p>
+
+	<p>Encadeamento de Pipes (date + uppercase):</p>
+	<p>{{ date | date: 'full' | uppercase }}</p>
+
+	<p>Imprimir objeto:</p>
+	<p>{{ pessoa }}</p>
+
+	<p>Imprimir objeto no formato JSON:</p>
+	<p>{{ pessoa | json }}</p>
+</div>
+
+<div class="container">
+	<div class="col">
+		<div class="row-6">
+			<div class="form-group">
+				<label for="text">Print Pipe Test:</label>
+				<input type="text" name="text" id="text" #nome>
+				<button class="btn btn-primary" (click)="add(nome.value)">add</button>
+			</div>
+		</div>
+	</div>
+	<div class="row-6">
+		<h3>Lista formatada</h3>
+		<p>Tamanho da lista {{ nomes.length }}</p>
+		<p>{{ nomes | printList }}</p>
+	</div>
+</div>

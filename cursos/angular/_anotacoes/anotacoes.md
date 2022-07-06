@@ -296,19 +296,50 @@ Arquivo/Diretório|Descrição
 
 - Utilizamos Pipes para alterar a forma de exibição de alguma propriedade do nosso Componente.
 
-- Existem Pipes nativos do Angular, como o `date`, que nos permite formatar datas e o `lowercase`, que permite alterarmos todos os caracteres de uma propriedade para caixa baixa.
+  ![Pipe](./imagens/pipe.jpg)
 
-- Seguindo o padrão para nome de arquivos, devemos deixar claro o propósito do script. Exemplo: Queremos criar um Pipe para fazer a substituição de caracteres de uma string (exatamente como um `String.replace()` em JavaScript faz). Nesse caso, devemos criar um arquivo dentro do diretório `src/app/pipe` com o nome de `replace.pipe.ts`.
+- Existem Pipes nativos do Angular. Vamos conhecer alguns deles:
 
-- Para indicarmos que aquele arquivo corresponde a um Pipe, devemos utilizar um *Decorator* `@Pipe` e dentro dele indicarmos o nome do pipe, através da propriedade `name`.
+  Nome|Descrição
+  :---:|:---
+  `date`|Formatação de data e horário.
+  `uppercase`|Todos os caractéres de uma string para caixa alta.
+  `lowercase`|Todos os caractéres de uma string para caixa baixa.
+  `titlecase`|Todas as palavras de uma string com o primeiro caractére maiúsculo e os demais minúsculos.
+  `slice`|Extrai um trecho de uma string (exatamente como o `String.slice()` do JavaScript).
+  `json`|Imprime um objeto no formato JSON.
+  `number`|Formata o número na questão do número de casas após a vírgula, qual símbolo utilizar para separar a parte inteira da decimal etc.
+  `currency`|Exibe o número no formato de moeda.
+  `percent`|Exibe o número no formato de porcentagem.
 
-  ```
-  @Pipe({
-    name: 'replace'
-  })
-  ```
+- Acessar a documentação oficial para conhecer todos os tipos de Pipes existentes e os parâmetros que cada um deles pode receber.
 
-- A classe `ReplacePipe` deve implementar o método `transform` de `PipeTransform`, onde é especificado o que aquele Pipe faz.
+- Podemos classificar Pipes como puros e impuros.
+  - Segundo a documentação, Pipes impuros são executados sempre que há uma mínima alteração na interface da aplicação, como por exemplo, a movimentação do mouse ou o pressionamento de uma tecla;
+  - Já os Pipes puros são aqueles que são executados apenas quando há uma alteração no valor armazenado na variável que está sendo manipulada, ou seja, a alteração do valor primitivo armazenado (como `string`, `number` ou `boolean`) ou do espaço de memória referenciado (como `Array`, `Function` ou `Object`).
+ 
+- Podemos criar nossos próprios pipes.
+  - Seguindo o padrão para nome de arquivos, devemos deixar claro o propósito do script. Exemplo: Queremos criar um Pipe para fazer a substituição de caracteres de uma string (exatamente como um `String.replace()` em JavaScript faz). Nesse caso, devemos criar um arquivo dentro do diretório `src/app/pipe` com o nome de `replace.pipe.ts`.
+  - Para indicarmos que aquele arquivo corresponde a um Pipe, devemos utilizar um *Decorator* `@Pipe` e dentro dele indicarmos o nome do pipe, através da propriedade `name`.
+  - Para indicar se o Pipe é puro ou impuro, utilizamos a propriedade `pure`, do tipo `boolean` (por padrão, o valor de `pure` é `true`).
+
+    ```
+    @Pipe({
+      name: 'replace',
+      pure: true
+    })
+    ```
+
+  - A classe `ReplacePipe` deve implementar o método `transform` de `PipeTransform`, onde é especificado o que aquele Pipe faz.
+    ```
+    export class ReplacePipe implements PipeTransform {
+
+      transform(value: unknown, ...args: unknown[]): unknown {
+        return null;
+      }
+
+    }
+    ```
 
 ## Rotas
 
